@@ -36,7 +36,7 @@ pipeline {
 				echo 'Criando wrapper para gradle'
 				dir("$projectWS") {
 //					sh 'gradle wrapper'
-					'gradle wrapper'
+					bat 'gradle wrapper'
 				}
 				echo '************************************************'
 				echo 'Criado wrapper para gradle'
