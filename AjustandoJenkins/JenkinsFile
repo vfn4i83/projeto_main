@@ -1,0 +1,91 @@
+pipeline {
+	// Teste o script antes de comitar
+	// curl --user admin:admin -X POST -F "jenkinsfile=<JenkinsFile" http://localhost:8080/pipeline-model-converter/validate
+	agent any
+	environment {
+		projectWS = "$WORKSPACE/TesteJenkins"
+	}
+	stages {
+//		stage('Prepare-workspace-local') {
+//			steps {
+//				echo 'Limpando a workspace'
+//				sh 'rm -rvf $WORKSPACE/*'
+//				echo 'Copiando arquivos do projeto local para workspace'
+//				sh 'cp -Rf /media/alexferreira/SSD/Documentos/Repositorios_git/Repositorios_Senac/projeto_automatizado_pipeline/* $WORKSPACE'
+//				echo 'Criando wrapper para gradle'
+//				dir("$projectWS") {
+//					sh 'gradle wrapper'
+//				}
+//			}
+//		}
+
+
+//		Pipeline{
+//			stages{
+//				stage{
+//					steps{
+//
+//					}
+//				}
+//			}
+//		}
+
+
+		stage('Prepare-workspace-remota') {
+			steps {
+				echo 'Criando wrapper para gradle'
+				dir("$projectWS") {
+					sh 'gradle wrapper'
+				}
+			}
+		}
+		stage('Teste-unit') {
+			steps {
+				echo 'Executando testes de unit e exportando resultados'
+				dir("$projectWS") {
+					sh '$projectWS/gradlew test'
+				}
+			}
+		}
+// //		stage('Teste-instrumentation') {
+// //			steps {
+// //				echo 'Executando testes de instrumentacao e exportando resultados'
+//		setProjectDir()
+// //				sh 'gradlew '
+// //				junit 'reports/**/*.xml'
+// //			}
+// //		}
+		stage('build-lint') {
+			steps {
+				echo 'Rodando lint para release'
+				dir("$projectWS") {
+					sh '$projectWS/gradlew lintRelease'
+//					Na prova sera para debug, nao assinado, esquece, vai ser release mesmo
+//					sh '$projectWS/gradlew lintDebug'
+				}
+			}
+		}
+		stage('build-apk') {
+			steps {
+				echo 'Gerando apk signing'
+				dir("$projectWS") {
+					sh '$projectWS/gradlew assembleRelease'
+				}
+			}
+		}
+		stage('Arquive-apk') {
+			steps {
+				echo 'Arquivando apk gerado'
+				archiveArtifacts artifacts: '**/app-release.apk', fingerprint: true, allowEmptyArchive: true
+//				archiveArtifacts artifacts: '**/app-release-unsigned.apk', fingerprint: true, allowEmptyArchive: false
+				echo 'Salvando tag com nome de artefato'
+//				script {
+//					def foo = "1.0.0"
+//					dir("$WORKSPACE"){
+//						sh "git tag v$foo"
+//					}
+				}
+			}
+		}
+	}
+}
