@@ -36,6 +36,7 @@ pipeline {
 				echo 'Criando wrapper para gradle'
 				dir("$projectWS") {
 //					sh 'gradle wrapper'
+//					para rodar windows precisa de bat
 					bat 'gradle wrapper'
 				}
 				echo '************************************************'
@@ -47,7 +48,8 @@ pipeline {
 			steps {
 				echo 'Executando testes de unit e exportando resultados'
 				dir("$projectWS") {
-					sh '/gradlew test'
+//					sh '/gradlew test'
+					bat '/gradlew test'
 				}
 				echo '************************************************'
 				echo 'Executado testes de unit e exportando resultados'
@@ -66,7 +68,9 @@ pipeline {
 			steps {
 				echo 'Rodando lint para release'
 				dir("$projectWS") {
-					sh 'gradlew lintRelease'
+//					sh 'gradlew lintRelease'
+					bat 'gradlew lintRelease'
+
 //					Na prova sera para debug, nao assinado, esquece, vai ser release mesmo
 //					sh '$projectWS/gradlew lintDebug'
 				}
@@ -77,7 +81,8 @@ pipeline {
 			steps {
 				echo 'Gerando apk signing'
 				dir("$projectWS") {
-					sh 'gradlew assembleRelease'
+//					sh 'gradlew assembleRelease'
+					bat 'gradlew assembleRelease'
 				}
 			}
 		}
