@@ -49,7 +49,7 @@ pipeline {
 				echo 'Executando testes de unit e exportando resultados'
 				dir("$projectWS") {
 //					sh '/gradlew test'
-					bat '/gradlew test'
+					bat 'gradlew test'
 				}
 				echo '************************************************'
 				echo 'Executado testes de unit e exportando resultados'
