@@ -37,6 +37,9 @@ pipeline {
 				dir("$projectWS") {
 					sh 'gradlew wrapper'
 				}
+				echo '************************************************'
+				echo 'Criado wrapper para gradle'
+				echo '************************************************'
 			}
 		}
 		stage('Teste-unit') {
@@ -45,6 +48,9 @@ pipeline {
 				dir("$projectWS") {
 					sh '$projectWS/gradlew test'
 				}
+				echo '************************************************'
+				echo 'Executado testes de unit e exportando resultados'
+				echo '************************************************'
 			}
 		}
 // //		stage('Teste-instrumentation') {
@@ -63,6 +69,7 @@ pipeline {
 //					Na prova sera para debug, nao assinado, esquece, vai ser release mesmo
 //					sh '$projectWS/gradlew lintDebug'
 				}
+				echo '************************************************'
 			}
 		}
 		stage('build-apk') {
