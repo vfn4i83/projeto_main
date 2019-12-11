@@ -35,7 +35,7 @@ pipeline {
 			steps {
 				echo 'Criando wrapper para gradle'
 				dir("$projectWS") {
-					sh 'gradlew wrapper'
+					sh 'gradle wrapper'
 				}
 				echo '************************************************'
 				echo 'Criado wrapper para gradle'
@@ -46,7 +46,7 @@ pipeline {
 			steps {
 				echo 'Executando testes de unit e exportando resultados'
 				dir("$projectWS") {
-					sh '$projectWS/gradlew test'
+					sh 'gradlew test'
 				}
 				echo '************************************************'
 				echo 'Executado testes de unit e exportando resultados'
