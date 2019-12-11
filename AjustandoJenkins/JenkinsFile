@@ -3,7 +3,7 @@ pipeline {
 	// curl --user admin:admin -X POST -F "jenkinsfile=<JenkinsFile" http://localhost:8080/pipeline-model-converter/validate
 	agent any
 	environment {
-		projectWS = "$WORKSPACE/Ajustando Jenkins"
+		projectWS = "$WORKSPACE/Ajustando_Jenkins"
 	}
 	stages {
 //		stage('Prepare-workspace-local') {
