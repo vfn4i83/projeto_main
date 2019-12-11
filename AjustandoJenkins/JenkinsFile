@@ -76,8 +76,8 @@ pipeline {
 		stage('Arquive-apk') {
 			steps {
 				echo 'Arquivando apk gerado'
-				archiveArtifacts artifacts: '**/app-release.apk', fingerprint: true, allowEmptyArchive: true
-//				archiveArtifacts artifacts: '**/app-release-unsigned.apk', fingerprint: true, allowEmptyArchive: false
+//				archiveArtifacts artifacts: '**/app-release.apk', fingerprint: true, allowEmptyArchive: true
+				archiveArtifacts artifacts: '**/app-release-unsigned.apk', fingerprint: true, allowEmptyArchive: false
 				echo 'Salvando tag com nome de artefato'
 //				script {
 //					def foo = "1.0.0"
